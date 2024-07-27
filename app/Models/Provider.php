@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Provider extends Model
 {
     use HasFactory;
+
+    public function person(){
+        return $this->belongsTo(Person::class);
+    }
+
+    public function purchases(){
+        return $this->hasMany(Purchase::class);
+    }
 }

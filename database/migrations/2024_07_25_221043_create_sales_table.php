@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('receipt_number',255);
             $table->decimal('total',8,2)->unsigned();
             $table->tinyInteger('status')->default(1);
+            $table->foreignId('client_id')->nullable()->constrained('clients')->onDelete('set null');
             $table->foreignId('receipt_id')->nullable()->constrained('receipts')->onDelete('set null');
             $table->foreignId('provider_id')->nullable()->constrained('providers')->onDelete('set null');
             $table->timestamps();

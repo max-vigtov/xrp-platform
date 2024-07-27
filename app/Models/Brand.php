@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Brand extends Model
 {
     use HasFactory;
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
+
+    public function property(){
+        return $this->belongsTo(property::class)->withTimestamps();
+    }
 }

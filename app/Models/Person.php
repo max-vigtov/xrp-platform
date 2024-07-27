@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Person extends Model
 {
     use HasFactory;
+
+    public function document(){
+        return $this->belongsTo(Document::class);
+    }
+
+    public function provider(){
+        return $this->hasOne(Provider::class);
+    }
+
+    public function client(){
+        return $this->hasOne(Client::class);
+    }
 }
