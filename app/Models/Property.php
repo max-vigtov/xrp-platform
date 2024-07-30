@@ -20,4 +20,8 @@ class Property extends Model
     public function presentation(){
         return $this->hasOne(Presentation::class);
     }
+
+    protected $filliable = ['name', 'description'];
+    protected $guarded = ['id'];
+
 }

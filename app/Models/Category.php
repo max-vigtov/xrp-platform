@@ -16,4 +16,8 @@ class Category extends Model
     public function property(){
         return $this->belongsTo(property::class)->withTimestamps();
     }
+
+    protected $filliable = ['property_id'];
+    protected $guarded = ['id'];
+
 }
