@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use  App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Category;
 use App\Models\Property;
 use Exception;
 
@@ -13,7 +15,8 @@ class categoryController extends Controller
 
     public function index()
     {
-        return view('category.index');
+        $categories = Category::with('property')->get();
+        return view('category.index',['categories' => $categories]);
     }
 
 
@@ -45,15 +48,19 @@ class categoryController extends Controller
         //
     }
 
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+
+        return view('category.edit',['category'=>$category]);
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        Property::where('id', $category->property->id)
+            ->update($request->validated());
+
+        return redirect()->route('category.index')->with('success', 'Category created successfully');
     }
 
 
