@@ -15,7 +15,7 @@ class categoryController extends Controller
 
     public function index()
     {
-        $categories = Category::with('property')->get();
+        $categories = Category::with('property')->latest()->get();
         return view('category.index',['categories' => $categories]);
     }
 
@@ -24,7 +24,6 @@ class categoryController extends Controller
     {
         return view('category.create');
     }
-
 
     public function store(StoreCategoryRequest $request)
     {
@@ -39,7 +38,7 @@ class categoryController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
         }
-        return redirect()->route('category.index')->with('success', 'Category created successfully');
+        return redirect()->route('category.index')->with('success', 'Categora creada éxitosamente');
     }
 
 
@@ -60,12 +59,28 @@ class categoryController extends Controller
         Property::where('id', $category->property->id)
             ->update($request->validated());
 
-        return redirect()->route('category.index')->with('success', 'Category created successfully');
+        return redirect()->route('category.index')->with('success', 'Categoría Editada éxitosamente');
     }
 
 
     public function destroy(string $id)
     {
-        //
+        $message = '';
+        $category = Category::find($id);
+        if($category->property->status == 1){
+            Property::where('id',$category->property->id)
+                ->update([
+                    'status' => 0,
+                ]);
+            $message = 'Categoría eliminada éxitosamente';
+        } else{
+            Property::where('id',$category->property->id)
+            ->update([
+                'status' => 1,
+            ]);
+            $message = 'Categoría restaurada éxitosamente';
+        }
+        return redirect()->route('category.index')->with('success', $message);
+
     }
 }
