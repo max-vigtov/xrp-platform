@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use  App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Models\Property;
@@ -25,8 +25,9 @@ class categoryController extends Controller
         return view('category.create');
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function store(StorePropertyRequest $request)
     {
+
         try {
             DB::beginTransaction();
             $property = Property::create($request->validated());
@@ -38,7 +39,7 @@ class categoryController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
         }
-        return redirect()->route('category.index')->with('success', 'Categora creada éxitosamente');
+        return redirect()->route('category.index')->with('success', 'Categoría creada éxitosamente');
     }
 
 
@@ -67,13 +68,16 @@ class categoryController extends Controller
     {
         $message = '';
         $category = Category::find($id);
+
         if($category->property->status == 1){
             Property::where('id',$category->property->id)
                 ->update([
                     'status' => 0,
                 ]);
             $message = 'Categoría eliminada éxitosamente';
-        } else{
+        }
+
+        else{
             Property::where('id',$category->property->id)
             ->update([
                 'status' => 1,
