@@ -49,7 +49,7 @@ class brandController extends Controller
     public function edit(Brand $brand)
     {
 
-        return view('brand.edit',['Brand'=>$brand]);
+        return view('brand.edit',['brand'=>$brand]);
     }
 
 

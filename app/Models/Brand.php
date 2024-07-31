@@ -14,6 +14,9 @@ class Brand extends Model
     }
 
     public function property(){
-        return $this->belongsTo(property::class)->withTimestamps();
+        return $this->belongsTo(property::class);
     }
+
+    protected $filliable = ['property_id'];
+    protected $guarded = ['id'];
 }

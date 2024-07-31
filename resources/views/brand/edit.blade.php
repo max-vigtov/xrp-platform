@@ -1,5 +1,5 @@
 @extends('template')
-@section('title','Editar Categoría')
+@section('title','Editar Marca')
 
 @push('css')
 <style>
@@ -11,20 +11,20 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Editar Categoría</h1>
+    <h1 class="mt-4">Editar Marca</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Categorías</a></li>
-        <li class="breadcrumb-item active">Editar categoría</li>
+        <li class="breadcrumb-item"><a href="{{ route('brand.index') }}">Marcas</a></li>
+        <li class="breadcrumb-item active">Editar Marca</li>
     </ol>
     <div class="container w-100 border border-3 border-primary rounded p-4 mt-3" >
-        <form action="{{ route('category.update', ['category'=>$category]) }}" method="post">
+        <form action="{{ route('brand.update', ['brand'=>$brand]) }}" method="post">
             @method('PATCH')
             @csrf
             <div class="row g-3">
                 <div class="col-md-6">
                     <label for="name" class="form-label">Nombre:</label>
-                    <input type="text" class="form-control" name="name" id="name" value="{{ old('name',$category->property->name) }}">
+                    <input type="text" class="form-control" name="name" id="name" value="{{ old('name',$brand->property->name) }}">
                     @error('name')
                         <small class="text-danger">{{'*'.$message }}</small>
                     @enderror
@@ -32,7 +32,7 @@
 
                 <div class="col-md-12">
                     <label for="description">Descripción:</label>
-                    <textarea name="description" class="form-control" id="description" rows="3">{{ old('description',$category->property->description) }}</textarea>
+                    <textarea name="description" class="form-control" id="description" rows="3">{{ old('description',$brand->property->description) }}</textarea>
                     @error('description')
                     <small class="text-danger">{{'*'.$message }}</small>
                     @enderror
