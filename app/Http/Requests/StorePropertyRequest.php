@@ -20,4 +20,12 @@ class StorePropertyRequest extends FormRequest
             "description" => "nullable|max:255"
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            "name" => "nombre",
+            "description" => "descripción",
+        ];
+    }
 }

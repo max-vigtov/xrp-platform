@@ -21,7 +21,7 @@
     </ol>
 
     <div class="container w-100 border border-3 border-primary rounded p-4 mt-3" >
-        <form action="{{ route('product.store') }}" method="post">
+        <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
              <div class="row g-3 mb-2">
@@ -73,9 +73,9 @@
                 {{-- Marca --}}
                 <div class="col-md-6 mb-2">
                     <label for="brand_id" class="form-label">Marca:</label>
-                    <select data-size="4" multiple title="Seleccione una marca" data-live-search="true" name="brand_id" id="brand_id" class="form-control selectpicker show-tick">
+                    <select data-size="4"  title="Seleccione una marca" data-live-search="true" name="brand_id" id="brand_id" class="form-control selectpicker">
                         @foreach ($brands as $item)
-                            <option value="{{$item->id}}">{{$item->property->name}}</option>
+                            <option value="{{$item->id}}" {{ old('brand_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                         @endforeach
                     </select>
                     @error('brand_id')
@@ -85,18 +85,18 @@
 
                 {{-- Categoria --}}
                 <div class="col-md-6 mb-2">
-                    <label for="brand_id" class="form-label">Categoría:</label>
-                    <select data-size="4" multiple title="Seleccione una categoria" data-live-search="true" name="categories[]" id="categories" class="form-control selectpicker show-tick multiple">
+                    <label for="category" class="form-label">Categoría:</label>
+                    <select data-size="4"  title="Seleccione una categoría" data-live-search="true" name="category" id="category" class="form-control selectpicker">
                         @foreach ($categories as $category)
-                            <option value="{{$category->id}}">{{$category->property->name}}</option>
+                            <option value="{{$category->id}}" {{ old('category') == $item->id ? 'selected' : '' }}>{{$category->name}}</option>
                         @endforeach
                     </select>
-                    @error('categories')
+                    @error('category')
                         <small class="text-danger">{{'*'.$message }}</small>
                     @enderror
                 </div>
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Crear</button>
+                <div class="col-md-12" >
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Crear</button>
 
                 </div>
             </div>

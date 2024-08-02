@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
+use Exception;
 use Illuminate\Http\Request;
 
 class productController extends Controller
@@ -17,20 +21,48 @@ class productController extends Controller
     public function create()
     {
         $brands = Brand::join('properties as c', 'brands.property_id','=','c.id')
+        ->select('brands.id as id','c.name as name')
         ->where('c.status',1)
         ->get();
 
         $categories =  Category::join('properties as c', 'categories.property_id','=','c.id')
+        ->select('categories.id as id','c.name as name')
         ->where('c.status',1)
         ->get();
         return view('product.create', compact('brands','categories'));
 
     }
 
-
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            //PRODUCT TABLE
+            $product = new Product();
+            if($request->hasFile('img_path')){
+                $name = $product->handableUploadImage($request->file('img_path'));
+            } else{
+                $name = null;
+            }
+            $product->fill([
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'expiration_date' => $request->expiration_date,
+                'img_path' => $name,
+                'brand_id' => $request->brand_id,
+            ]);
+            $product->save();
+
+            //PRODUCT-CATEGORY TABLE
+            $categories = $request->get('category');
+            $product->categories()->attach($categories);
+            DB::commit();
+        } catch (Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route('product.index')->with('success','Producto registrado');
+
     }
 
     public function show(string $id)

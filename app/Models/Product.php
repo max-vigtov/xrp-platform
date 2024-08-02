@@ -30,4 +30,14 @@ class Product extends Model
     public function presentation(){
         return $this->belongsTo(Presentation::class);
     }
+
+    protected $fillable = ['code','name','description','expiration_date','brand_id','img_path'];
+
+    public function handableUploadImage($image){
+        $file = $image;
+        $name = time() . $file->getClientOriginalName();
+        $file->move(public_path().'/img/products/',$name);
+
+        return $name;
+    }
 }
