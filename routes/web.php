@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\brandController;
-
+use App\Http\Controllers\productController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +22,11 @@ Route::get('/', function () {
 
 Route::view('/panel', 'panel.index')->name('panel');
 
-Route::resource('category', categoryController::class);
-Route::resource('brand', brandController::class);
+Route::resources([
+    'category' => categoryController::class,
+    'brand'=> brandController::class,
+    'product' => productController::class,
+]);
 
 Route::get('/login', function () {
     return view('auth.login');
