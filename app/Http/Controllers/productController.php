@@ -15,7 +15,8 @@ class productController extends Controller
 
     public function index()
     {
-        return view('product.index');
+        $products = Product::with(['categories.property','brand.property'])->latest()->get();
+        return view('product.index',compact('products'));
     }
 
     public function create()

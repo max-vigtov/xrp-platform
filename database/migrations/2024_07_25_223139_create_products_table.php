@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('code',50);
             $table->string('name',80);
-            $table->integer('strock')->unsigned()->default(0);
+            $table->integer('stock')->unsigned()->default(0);
             $table->string('description',255)->nullable();
             $table->date('expiration_date')->nullable();
             $table->string('img_path',255)->nullable();

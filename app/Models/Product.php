@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -36,7 +37,8 @@ class Product extends Model
     public function handableUploadImage($image){
         $file = $image;
         $name = time() . $file->getClientOriginalName();
-        $file->move(public_path().'/img/products/',$name);
+        //$file->move(public_path().'/img/products/',$name);
+        Storage::putFileAs('/public/products',$file,$name,'public');
 
         return $name;
     }
