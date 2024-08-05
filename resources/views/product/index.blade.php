@@ -5,6 +5,12 @@
 @push('css')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+<style>
+    .img-small {
+      width: 100px; /* Ajusta este valor según tus necesidades */
+      height: auto;
+    }
+  </style>
 @endpush
 
 @section('content')
@@ -48,6 +54,7 @@ Toast.fire({
             <table id="datatablesSimple" class="table table-striped">
                 <thead>
                     <tr>
+                        <th>Imagen</th>
                         <th>Nombre</th>
                         <th>Marca</th>
                         <th>Código</th>
@@ -59,6 +66,15 @@ Toast.fire({
                 <tbody>
                     @foreach($products as $item)
                         <tr>
+                            <td>
+                                <div>
+                                    @if($item->img_path != null)
+                                    <img src="{{ Storage::url('public/products/'.$item->img_path) }}" alt="{{ $item->name }}" class="img-fluid img-thumbnail img-small">
+                                  @else
+                                    <img src="" alt="{{ $item->name }}" class="img-small">
+                                    @endif
+                                </div>
+                            </td>
                             <td>
                                 {{ $item->name }}
                             </td>
@@ -86,7 +102,9 @@ Toast.fire({
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <button type="button" class="btn btn-warning">Editar</button>
+                                   <form action="{{ route('product.edit',['product' => $item]) }}" method="get">
+                                        <button type="submit" class="btn btn-warning">Editar</button>
+                                    </form>
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal-{{$item->id}}">Ver Producto</button>
                                     <button type="button" class="btn btn-danger">Eliminar</button>
                                   </div>
@@ -121,8 +139,6 @@ Toast.fire({
                                         @endif
                                     </div>
                                   </div>
-
-
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

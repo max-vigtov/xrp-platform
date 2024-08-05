@@ -34,7 +34,7 @@ class Product extends Model
 
     protected $fillable = ['code','name','description','expiration_date','brand_id','img_path'];
 
-    public function handableUploadImage($image){
+    public function handleUploadImage($image){
         $file = $image;
         $name = time() . $file->getClientOriginalName();
         //$file->move(public_path().'/img/products/',$name);

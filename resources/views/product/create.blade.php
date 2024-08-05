@@ -63,7 +63,7 @@
 
                 {{-- Imagen --}}
                 <div class="col-md-6 mb-2">
-                    <label for="expiration_date" class="form-label">Imagen:</label>
+                    <label for="img_path" class="form-label">Imagen:</label>
                     <input type="file" class="form-control" name="img_path" id="img_path" accept="Image/" value="{{ old('img_path') }}">
                     @error('img_path')
                         <small class="text-danger">{{'*'.$message }}</small>
