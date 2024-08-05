@@ -105,11 +105,17 @@ Toast.fire({
                                    <form action="{{ route('product.edit',['product' => $item]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal-{{$item->id}}">Ver Producto</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">Ver Producto</button>
+                                    @if($item->status == 1)
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
+                                    @else
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Restaurar</button>
+                                    @endif
+                                    {{-- <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button> --}}
                                   </div>
                             </td>
                         </tr>
+
                         <div class="modal fade" id="viewModal-{{$item->id}}" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable">
                               <div class="modal-content">
@@ -145,7 +151,42 @@ Toast.fire({
                                 </div>
                               </div>
                             </div>
-                          </div>
+                        </div>
+
+                        <!-- Modal Confirm -->
+                        <div class="modal fade" id="confirmModal-{{ $item->id }}" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">Detalles del producto</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                <div class="modal-body">
+
+                                {{ $item->status == 1
+                                ? '¿Estás seguro de eliminar el producto?'
+                                : '¿Estás seguro de restaurar el producto?'
+                                }}
+
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                                <form action="{{ route('product.destroy',['product'=>$item->id]) }}" method="post">
+                                    @method('DELETE')
+                                    @csrf
+
+                                    @if ($item->status == 1)
+                                    <button type="submit" class="btn btn-danger">Confirmar</button>
+                                    @else
+                                    <button type="submit" class="btn btn-success">Confirmar</button>
+                                    @endif
+                                </form>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>

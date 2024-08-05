@@ -112,8 +112,11 @@ Toast.fire({
                                     <form action="{{ route('brand.destroy',['brand'=>$brand->id]) }}" method="post">
                                         @method('DELETE')
                                         @csrf
+                                        @if ( $brand->property->status == 1)
                                         <button type="submit" class="btn btn-danger">Confirmar</button>
-
+                                        @else
+                                        <button type="submit" class="btn btn-success">Confirmar</button>
+                                        @endif
                                     </form>
                                     </div>
                                 </div>

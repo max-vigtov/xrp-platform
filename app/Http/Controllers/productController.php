@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Brand;
+use App\Models\Property;
 use Exception;
 
 class productController extends Controller
@@ -129,6 +130,25 @@ class productController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $message = '';
+        $product = Product::find($id);
+
+        if($product->status == 1){
+            Product::where('id',$product->id)
+                ->update([
+                    'status' => 0,
+                ]);
+            $message = 'Producto eliminado éxitosamente';
+        }
+
+        else{
+            Product::where('id',$product->id)
+            ->update([
+                'status' => 1,
+            ]);
+            $message = 'Producto eliminado éxitosamente';
+        }
+        return redirect()->route('product.index')->with('success', $message);
+
     }
 }
