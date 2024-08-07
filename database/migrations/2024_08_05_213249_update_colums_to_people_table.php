@@ -22,7 +22,7 @@ return new class extends Migration
         });
 
         Schema::table('people', function (Blueprint $table) {
-            $table->foreignId('number_document',20)->after('document_id');
+            $table->foreignId('document_number',20)->after('document_id');
         });
     }
 
@@ -45,7 +45,7 @@ return new class extends Migration
 
         //ELIMINAR document_number
         Schema::table('people', function (Blueprint $table) {
-            $table->foreignId('number_document');
+            $table->foreignId('document_number');
 
         });
     }

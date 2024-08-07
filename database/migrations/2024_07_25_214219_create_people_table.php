@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->id();
-            $table->string('business_name');
+            $table->string('business_name');  //razon_social
             $table->string('address');
             $table->string('person_type');
             $table->tinyInteger('status')->default(1);

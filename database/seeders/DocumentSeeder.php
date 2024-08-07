@@ -15,7 +15,7 @@ class DocumentSeeder extends Seeder
     {
         Document::insert([
             [
-                'document_type' => 'DNI',
+                'document_type' => 'INE',
             ],
 
             [
@@ -25,6 +25,7 @@ class DocumentSeeder extends Seeder
             [
                 'document_type' => 'RUC',
             ],
+
             [
                 'document_type' => 'Carnet Extranjería',
             ]

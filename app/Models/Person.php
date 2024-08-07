@@ -20,4 +20,7 @@ class Person extends Model
     public function client(){
         return $this->hasOne(Client::class);
     }
+
+    protected $fillable = ['business_name','address','person_type','document_id', 'document_number'];
+
 }

@@ -12,4 +12,6 @@ class Client extends Model
     public function person(){
         return $this->belongsTo(Person::class);
     }
+
+    protected $fillable = ['person_id'];
 }
