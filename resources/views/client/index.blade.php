@@ -47,7 +47,50 @@ Toast.fire({
         </div>
         <div class="card-body">
             <table id="datatablesSimple" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Tipo de documento</th>
+                        <th>Tipo de persona</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                <thead>
+                <tbody>
+                    @foreach ( $clients as $item )
+                        <tr>
+                            <td>  {{ $item->person->business_name }} </td>
+                            <td>  {{ $item->person->address }} </td>
+                            <td>
+                                <p class="fw-normal mb-1"> {{ $item->person->document->document_type }} </p>
+                                <p class="text-muted mb-0">  {{ $item->person->document_number }} </p>
 
+                            </td>
+                            <td>  {{ $item->person->person_type }} </td>
+                            <td>
+                                @if($item->person->status == 1)
+                                <span class="fw-bolder rounded p-1 bg-success text-white text-center">ACTIVO</span>
+                                @else
+                                <span class="fw-bolder rounded p-1 bg-danger text-white text-center">ELIMINADO</span>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                   <form action="{{ route('client.edit',['client' => $item]) }}" method="get">
+                                        <button type="submit" class="btn btn-warning">Editar</button>
+                                    </form>
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">Ver Cliente</button>
+                                    @if($item->person->status == 1)
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
+                                    @else
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Restaurar</button>
+                                    @endif
+                                  </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
