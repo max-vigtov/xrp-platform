@@ -76,6 +76,24 @@ class clientController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $message = '';
+        $person = Person::find($id);
+
+        if($person->status == 1){
+            Person::where('id',$person->id)
+                ->update([
+                    'status' => 0,
+                ]);
+            $message = 'Cliente eliminado éxitosamente';
+        }
+
+        else{
+            Person::where('id',$person->id)
+            ->update([
+                'status' => 1,
+            ]);
+            $message = 'Cliente restaurado éxitosamente';
+        }
+        return redirect()->route('client.index')->with('success', $message);
     }
 }

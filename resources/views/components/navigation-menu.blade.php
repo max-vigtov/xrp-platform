@@ -66,6 +66,10 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-people-group"></i></div>
                 Clientes
             </a>
+            <a class="nav-link" href="{{ route('client.index') }}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-box-open"></i></div>
+                Proovedores
+            </a>
         </div>
     </div>
     <div class="sb-sidenav-footer">
