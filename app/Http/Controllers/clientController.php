@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePersonRequest;
+use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\Document;
 use App\Models\Person;
@@ -50,15 +51,27 @@ class clientController extends Controller
     }
 
 
-    public function edit(string $id)
+    public function edit(Client $client)
     {
-        //
+        $client->load('person.document');
+        $documents = Document::all();
+        return view('client.edit',compact('client','documents'));
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(UpdateClientRequest $request, Client $client)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            Person::where('id',$client->person->id)
+            ->update($request->validated());
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+        return redirect()->route('client.index')->with('success', 'Cliente actualizado éxitosamente');
+
     }
 
     public function destroy(string $id)
