@@ -9,7 +9,6 @@ use App\Models\Document;
 use App\Models\Person;
 use Illuminate\Support\Facades\DB;
 use Exception;
-use Illuminate\Http\Request;
 
 class clientController extends Controller
 {

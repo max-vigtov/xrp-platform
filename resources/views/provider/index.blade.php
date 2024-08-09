@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title','Clientes')
+@section('title','Proveedors')
 
 @push('css')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -31,19 +31,19 @@ Toast.fire({
 @endif
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Clientes</h1>
+    <h1 class="mt-4">Proveedores</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-        <li class="breadcrumb-item active">Clientes</li>
+        <li class="breadcrumb-item active">Proveedores</li>
     </ol>
     <div class="mb-4">
-        <a href="{{ route('client.create') }}"> <button type="button" class="btn btn-primary">Registrar Cliente</button></a>
+        <a href="{{ route('provider.create') }}"> <button type="button" class="btn btn-primary">Registrar Proveedor</button></a>
     </div>
 
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Clientes registrados
+            Proveedors registrados
         </div>
         <div class="card-body">
             <table id="datatablesSimple" class="table table-striped">
@@ -58,7 +58,7 @@ Toast.fire({
                     </tr>
                 <thead>
                 <tbody>
-                    @foreach ( $clients as $item )
+                    @foreach ( $providers as $item )
                         <tr>
                             <td>  {{ $item->person->business_name }} </td>
                             <td>  {{ $item->person->address }} </td>
@@ -76,10 +76,10 @@ Toast.fire({
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                   <form action="{{ route('client.edit',['client' => $item]) }}" method="get">
+                                   <form action="{{ route('provider.edit',['provider' => $item]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">Ver Cliente</button>
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">Ver Proveedor</button>
                                     @if($item->person->status == 1)
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
                                     @else
@@ -93,21 +93,21 @@ Toast.fire({
                             <div class="modal-dialog modal-dialog-scrollable">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmModalLabel">Detalles del Cliente</h5>
+                                    <h5 class="modal-title" id="confirmModalLabel">Detalles del Proveedor</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                 <div class="modal-body">
 
                                 {{ $item->person->status == 1
-                                ? '¿Estás seguro de eliminar el Cliente?'
-                                : '¿Estás seguro de restaurar el Cliente?'
+                                ? '¿Estás seguro de eliminar el Proveedor?'
+                                : '¿Estás seguro de restaurar el Proveedor?'
                                 }}
 
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 
-                                <form action="{{ route('client.destroy',['client'=>$item->person->id]) }}" method="post">
+                                <form action="{{ route('provider.destroy',['provider'=>$item->person->id]) }}" method="post">
                                     @method('DELETE')
                                     @csrf
 

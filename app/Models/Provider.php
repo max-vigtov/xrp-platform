@@ -16,4 +16,7 @@ class Provider extends Model
     public function purchases(){
         return $this->hasMany(Purchase::class);
     }
+
+    protected $fillable = ['person_id'];
+
 }

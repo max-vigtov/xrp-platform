@@ -66,9 +66,9 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-people-group"></i></div>
                 Clientes
             </a>
-            <a class="nav-link" href="{{ route('client.index') }}">
+            <a class="nav-link" href="{{ route('provider.index') }}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-box-open"></i></div>
-                Proovedores
+                Proveedores
             </a>
         </div>
     </div>

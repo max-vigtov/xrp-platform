@@ -5,6 +5,8 @@ use App\Http\Controllers\categoryController;
 use App\Http\Controllers\brandController;
 use App\Http\Controllers\clientController;
 use App\Http\Controllers\productController;
+use App\Http\Controllers\providerController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,8 @@ Route::resources([
     'brand'=> brandController::class,
     'product' => productController::class,
     'client' => clientController::class,
+    'provider' => providerController::class,
+
 ]);
 
 Route::get('/login', function () {

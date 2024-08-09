@@ -1,5 +1,5 @@
 @extends('template')
-@section('title','Registrar Cliente')
+@section('title','Registrar Proveedor')
 
 @push('css')
     <style>
@@ -12,15 +12,15 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Registrar Cliente</h1>
+    <h1 class="mt-4">Registrar Proveedor</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('client.index') }}">Clientes</a></li>
-        <li class="breadcrumb-item active">Registrar Cliente</li>
+        <li class="breadcrumb-item"><a href="{{ route('provider.index') }}">Proveedors</a></li>
+        <li class="breadcrumb-item active">Registrar Proveedor</li>
     </ol>
 
     <div class="container w-100 border border-3 border-primary rounded p-4 mt-3" >
-        <form action="{{ route('client.store') }}" method="post"  enctype="multipart/form-data">
+        <form action="{{ route('provider.store') }}" method="post"  enctype="multipart/form-data">
             @csrf
             <div class="row g-3">
 
