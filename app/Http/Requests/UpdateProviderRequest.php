@@ -11,7 +11,7 @@ class UpdateProviderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,12 @@ class UpdateProviderRequest extends FormRequest
      */
     public function rules(): array
     {
+        $provider = $this->route('provider');
         return [
-            //
+            'business_name' => 'required|max:80',
+            'address' => 'required|max:80',
+            'document_id' => 'required|integer|exists:documents,id',
+            'document_number' => 'required|max:20|unique:people,document_number,'.$provider->person->id
         ];
     }
 }

@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title','Proveedors')
+@section('title','Proveedores')
 
 @push('css')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -43,7 +43,7 @@ Toast.fire({
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Proveedors registrados
+            Proveedores registrados
         </div>
         <div class="card-body">
             <table id="datatablesSimple" class="table table-striped">

@@ -29,8 +29,8 @@
                     <label for="name" class="form-label">Tipo de entidad:</label>
                     <select class="form-select" name="person_type" id="person_type">
                         <option value="" selected disabled>Selecciona una opción</option>
-                        <option value="física" {{ old('peson_type' == 'física' ? 'selected' : '') }}>Persona Física</option>
-                        <option value="moral" {{ old('peson_type' == 'moral' ? 'selected' : '') }}>Persona Moral</option>
+                        <option value="Física" {{ old('peson_type' == 'Física' ? 'selected' : '') }}>Persona Física</option>
+                        <option value="Moral" {{ old('peson_type' == 'Moral' ? 'selected' : '') }}>Persona Moral</option>
                     </select>
                     @error('peson_type')
                         <small class="text-danger">{{'*'.$message }}</small>
@@ -94,7 +94,7 @@
     $(document).ready(function(){
         $('#person_type').on('change', function(){
             let selectValue = $(this).val();
-            if (selectValue == 'física') {
+            if (selectValue == 'Física') {
                 $('#label-moral').hide();
                 $('#label-fisica').show();
             } else {

@@ -27,7 +27,7 @@
                     {{-- Business Name --}}
                     <div class="col-md-6 mb-2" id="box-business-name">
 
-                        @if ($client->person->person_type == 'física')
+                        @if ($client->person->person_type == 'Física')
                         <label id="label-fisica" for="business_name" class="form-label">Nombre(s) y apellidos:</label>
                         @else
                         <label id="label-moral" for="business_name" class="form-label">Nombre de la empresa:</label>
