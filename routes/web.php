@@ -6,7 +6,7 @@ use App\Http\Controllers\brandController;
 use App\Http\Controllers\clientController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\providerController;
-
+use App\Http\Controllers\purchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ Route::resources([
     'product' => productController::class,
     'client' => clientController::class,
     'provider' => providerController::class,
-
+    'purchase' => purchaseController::class,
 ]);
 
 Route::get('/login', function () {
