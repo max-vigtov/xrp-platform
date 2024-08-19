@@ -9,8 +9,17 @@ class Purchase extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'date_time',
+        'tax',
+        'receipt_number',
+        'total',
+        'receipt_id',
+        'provider_id'
+    ];
+
     public function provider(){
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(Provider::class);
     }
 
     public function receipt(){

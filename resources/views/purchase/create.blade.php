@@ -50,10 +50,10 @@
                                     <input type="number" name="purchase_price" id="purchase_price" class="form-control" step="0.1">
                                 </div>
 
-                                {{-- sale_price --}}
+                                {{-- selling_price --}}
                                 <div class="col-md-4 mb-3">
-                                    <label for="sale_price" class="form-label">Precio de venta:</label>
-                                    <input type="number" name="sale_price" id="sale_price" class="form-control" step="0.1">
+                                    <label for="selling_price" class="form-label">Precio de venta:</label>
+                                    <input type="number" name="selling_price" id="selling_price" class="form-control" step="0.1">
                                 </div>
 
                                 {{-- button --}}
@@ -80,6 +80,7 @@
                                             <tbody>
                                                 <tr>
                                                     <th></th>
+                                                    <th></th>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -102,7 +103,7 @@
                                                 <tr>
                                                     <th></th>
                                                     <th colspan="4">Total</th>
-                                                    <th colspan="2"><span id="total">0</span></th>
+                                                    <th colspan="2"> <input type="hidden" name="total" value="0" id="inputTotal"> <span id="total">0</span></th>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -135,7 +136,10 @@
                                     @foreach ($providers as $item)
                                         <option value="{{ $item->id }}">{{ $item->person->business_name}}</option>
                                     @endforeach
-                                   </select>
+                                 </select>
+                                 @error('provider_id')
+                                    <small class="text-danger">{{'*'.$message }}</small>
+                                 @enderror
                               </div>
 
                              {{-- Receipt Type --}}
@@ -146,24 +150,40 @@
                                         <option value="{{ $item->id }}">{{ $item->receipt_type}}</option>
                                     @endforeach
                                  </select>
+                                 @error('receipt_id')
+                                    <small class="text-danger">{{'*'.$message }}</small>
+                                 @enderror
                              </div>
 
                              {{-- Receipt Number --}}
                              <div class="col-md-12 mb-2">
                                 <label for="receipt_number" id="receipt_id">Número de Comprobante:</label>
                                 <input required type="text" name="receipt_number" id="receipt_number" class="form-control">
+                                @error('receipt_number')
+                                    <small class="text-danger">{{'*'.$message }}</small>
+                                @enderror
                              </div>
 
                              {{-- Tax --}}
                              <div class="col-md-6 mb-2">
                                 <label for="tax" class="form-label">Impuesto:</label>
-                                <input disabled readonly type="text" name="tax" id="tax" class="form-control border-success">
+                                <input readonly type="text" name="tax" id="tax" class="form-control border-success">
+                                @error('tax')
+                                    <small class="text-danger">{{'*'.$message }}</small>
+                                @enderror
                              </div>
 
                              {{-- Date --}}
                              <div class="col-md-6 mb-2">
                                 <label for="date" class="form-label">Fecha:</label>
-                                <input disabled readonly type="date" name="date" id="date" class="form-control border-success" value="<?php echo date("Y-m-d") ?>">
+                                <input readonly type="date" name="date" id="date" class="form-control border-success" value="<?php echo date("Y-m-d") ?>">
+
+                                <?php
+                                use Carbon\Carbon;
+                                $date_time = Carbon::now()->toDateTimeString();
+                                ?>
+
+                                <input type="hidden" name="date_time" value="{{ $date_time }}">
                              </div>
 
                              {{-- Buttons --}}
@@ -214,16 +234,6 @@
         $('#tax').val(tax + '%')
     });
 
-    function disableButtons(){
-        if( total == 0 ){
-            $('#saveButton').hide();
-            $('#cancelButton').hide();
-        }else{
-            $('#saveButton').show();
-            $('#cancelButton').show();
-        }
-    }
-
     let cont = 0;
     let subTotal = [];
     let amount = 0;
@@ -255,9 +265,21 @@
         $('#amount').html(amount);
         $('#iva').html(iva);
         $('#total').html(total);
+        $('#tax').val(tax + '%');
+        $('#inputTotal').val(total);
 
         cleanFields();
         disableButtons();
+    }
+
+    function disableButtons(){
+        if( total == 0 ){
+            $('#saveButton').hide();
+            $('#cancelButton').hide();
+        }else{
+            $('#saveButton').show();
+            $('#cancelButton').show();
+        }
     }
 
     function addProduct(){
@@ -265,7 +287,7 @@
         let nameProduct = ($('#product_id option:selected').text()).split('  ')[1];
         let quantity = $('#quantity').val();
         let purchasePrice = $('#purchase_price').val();
-        let salePrice = $('#sale_price').val();
+        let salePrice = $('#selling_price').val();
 
      if (nameProduct != '' && nameProduct != undefined && quantity != '' && purchasePrice != '' && salePrice != ''){
 
@@ -275,15 +297,15 @@
 
                 subTotal[cont] = round( quantity * purchasePrice );
                 amount += subTotal[cont];
-                iva = round( (amount / 100) * tax );
+                iva = round( amount / 100 * tax );
                 total = round( amount + iva );
 
                 let row = '<tr id="row'+ cont +'">' +
                         '<th>' + (cont + 1) + '</th>' +
-                        '<td>' + nameProduct + '</td>' +
-                        '<td>' + quantity + '</td>' +
-                        '<td>$ ' + purchasePrice + '</td>' +
-                        '<td>$ ' + salePrice + '</td>' +
+                        '<td> <input type="hidden" name="arrayIdProduct[]" value = "'+ idProduct + '">' + nameProduct + '</td>' +
+                        '<td> <input type="hidden" name="arrayQuantity[]" value = "'+ quantity + '">' + quantity + '</td>' +
+                        '<td> </td> <input type="hidden" name="arrayPurchasePrice[]" value = "'+ purchasePrice + '">$ ' + purchasePrice + '</td>' +
+                        '<td> </td> <input type="hidden" name="arraySellingPrice[]" value = "'+ salePrice + '">$ ' + salePrice + '</td>' +
                         '<td>$ ' + subTotal[cont]+ '</td>' +
                         '<td><button class="btn btn-danger" type="button" onClick="deleteProduct('+ cont +')"><i class="fa-solid fa-trash"></i></button></td>' +
                         '</tr>';
@@ -295,6 +317,9 @@
                 $('#amount').html(amount);
                 $('#iva').html(iva);
                 $('#total').html(total);
+                $('#tax').val(iva);
+                $('#inputTotal').val(total);
+
             }else{
                 showModal('El precio de venta tiene que ser mayor que el de compra.')
             }
@@ -317,6 +342,8 @@
         $('#iva').html(iva);
         $('#total').html(total);
         $('#row'+ index).remove();
+        $('#tax').val(iva);
+        $('#inputTotal').val(total);
     }
 
     function cleanFields(){
@@ -324,7 +351,7 @@
         select.selectpicker('val', '');
         $('#quantity').val('');
         $('#purchase_price').val('');
-        $('#sale_price').val('');
+        $('#selling_price').val('');
     }
 
     function round(num, decimales = 2) {

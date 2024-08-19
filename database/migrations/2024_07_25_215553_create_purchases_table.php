@@ -16,22 +16,16 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date_time');
-            $table->decimal('tax',8,2,true);
+            $table->decimal('tax',8,2,true)->unsigned();
             $table->string('receipt_number',255);
-            $table->decimal('total',8,2,true);
+            $table->decimal('total',8,2,true)->unsigned();
             $table->tinyInteger('status')->default(1);
-            $table->foreignId('client_id')->nullable()->constrained('clients')->onDelete('set null');
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('receipt_id')->nullable()->constrained('receipts')->onDelete('set null');
+            $table->foreignId('provider_id')->nullable()->constrained('providers')->onDelete('set null');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('purchases');
