@@ -34,8 +34,6 @@ class purchaseController extends Controller
 
     public function store(StorePurchaseRequest $request)
     {
-        dd($request->all());
-
         try {
             DB::beginTransaction();
             $purchase = Purchase::create($request->validated());
