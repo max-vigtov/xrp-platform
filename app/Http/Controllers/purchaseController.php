@@ -16,7 +16,11 @@ class purchaseController extends Controller
 
     public function index()
     {
-        return view('purchase.index');
+        $purchases = Purchase::with('receipt','provider.person')
+        ->where('status',1)
+        ->latest()
+        ->get();
+        return view('purchase.index', compact('purchases'));
     }
 
 

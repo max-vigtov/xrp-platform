@@ -49,13 +49,50 @@ Toast.fire({
             <table id="datatablesSimple" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Estado</th>
+                        <th>Comprobante</th>
+                        <th>Proveedor</th>
+                        <th>Fecha y hora</th>
+                        <th>Total</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-
+                <tbody>
+                    @foreach ($purchases as $item)
+                    <tr>
+                        <td>
+                            <p class="fw-semibold mb-1">
+                                {{ $item->receipt->receipt_type }}
+                            </p>
+                            <p class="text-muted mb-0">
+                                {{ $item->receipt_number }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-semibold mb-1">
+                                {{ $item->provider->person->business_name }}
+                            </p>
+                            <p class="text-muted mb-0">
+                                Tipo de persona: {{ $item->provider->person->person_type }}
+                            </p>
+                        </td>
+                        <td>
+                            {{
+                            \Carbon\Carbon::parse($item->date_time)->format('d-m-Y') .'  -   '.
+                            \Carbon\Carbon::parse($item->date_time)->format('H:i')
+                            }}
+                        </td>
+                        <td>
+                            {{ $item->total }}
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                <button type="submit" class="btn btn-success">Ver</button>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                              </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
 
             </table>
         </div>

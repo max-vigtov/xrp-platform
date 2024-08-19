@@ -33,7 +33,6 @@ class productController extends Controller
         ->where('c.status',1)
         ->get();
         return view('product.create', compact('brands','categories'));
-
     }
 
     public function store(StoreProductRequest $request)
@@ -66,7 +65,6 @@ class productController extends Controller
             DB::rollBack();
         }
         return redirect()->route('product.index')->with('success','Producto registrado exitosamente');
-
     }
 
     public function show(string $id)
@@ -125,7 +123,6 @@ class productController extends Controller
             DB::rollBack();
         }
         return redirect()->route('product.index')->with('success','Producto editado exitosamente');
-
     }
 
     public function destroy(string $id)
@@ -149,6 +146,5 @@ class productController extends Controller
             $message = 'Producto eliminado éxitosamente';
         }
         return redirect()->route('product.index')->with('success', $message);
-
     }
 }
