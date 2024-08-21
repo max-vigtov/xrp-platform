@@ -77,7 +77,7 @@ Toast.fire({
                         </td>
                         <td>
                             {{
-                            \Carbon\Carbon::parse($item->date_time)->format('d-m-Y') .'  -   '.
+                            \Carbon\Carbon::parse($item->date_time)->format('d-m-Y') .'  -  '.
                             \Carbon\Carbon::parse($item->date_time)->format('H:i')
                             }}
                         </td>
@@ -86,7 +86,9 @@ Toast.fire({
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="submit" class="btn btn-success">Ver</button>
+                                <form action="{{ route('purchase.show', ['purchase'=>$item]) }}" method="get">
+                                    <button type="submit" class="btn btn-success">Ver</button>
+                                </form>
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                               </div>
                         </td>

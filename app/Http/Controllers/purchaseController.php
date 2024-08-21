@@ -77,9 +77,9 @@ class purchaseController extends Controller
     }
 
 
-    public function show(string $id)
+    public function show(Purchase $purchase)
     {
-        //
+        return view('purchase.show',compact('purchase'));
     }
 
     public function edit(string $id)
