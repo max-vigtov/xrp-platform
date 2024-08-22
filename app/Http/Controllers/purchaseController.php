@@ -95,6 +95,10 @@ class purchaseController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        Purchase::where('id',$id)
+        ->update([
+            'status' => 0
+        ]);
+        return redirect()->route('purchase.index')->with('success', 'Compra Eliminada con exito');
     }
 }
