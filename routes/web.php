@@ -7,6 +7,7 @@ use App\Http\Controllers\clientController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\providerController;
 use App\Http\Controllers\purchaseController;
+use App\Http\Controllers\saleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::resources([
     'client' => clientController::class,
     'provider' => providerController::class,
     'purchase' => purchaseController::class,
+    'sale' => saleController::class,
 ]);
 
 Route::get('/login', function () {
