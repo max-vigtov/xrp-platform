@@ -341,9 +341,9 @@
         $('#amount').html(amount);
         $('#iva').html(iva);
         $('#total').html(total);
-        $('#row'+ index).remove();
         $('#tax').val(iva);
         $('#inputTotal').val(total);
+        $('#row'+ index).remove();
     }
 
     function cleanFields(){

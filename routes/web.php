@@ -21,7 +21,7 @@ use App\Http\Controllers\saleController;
 */
 
 Route::get('/', function () {
-    return view('template');
+    return view('panel.index');
 });
 
 Route::view('/panel', 'panel.index')->name('panel');

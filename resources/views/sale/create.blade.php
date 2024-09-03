@@ -33,7 +33,7 @@
                         <div class="col-md-12 mb-4">
                             <select name="product_id" id="product_id" class="form-control selectpicker" data-live-search="true" data-size="5" title="Seleccione un producto">
                                 @foreach ($products as $item)
-                                    <option value="{{ $item->id }}">{{ $item->code.'  '.$item->name}}</option>
+                                    <option value="{{$item->id}}-{{$item->stock}}-{{$item->selling_price}}">{{ $item->code.'  '.$item->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -44,7 +44,7 @@
                                 <div class="row">
                                     <label for="stock" class="form-label col-sm-4">En stock:</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control">
+                                        <input disabled type="text" name="stock" id="stock" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                         {{-- selling_price --}}
                         <div class="col-md-4 mb-3">
                             <label for="selling_price" class="form-label">Precio de venta:</label>
-                            <input type="number" name="selling_price" id="selling_price" class="form-control" step="0.1">
+                            <input disabled type="number" name="selling_price" id="selling_price" class="form-control" step="0.1">
                         </div>
 
                         {{-- discount --}}
@@ -220,7 +220,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button id="btnCancelsale" type="button" class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>
+                    <button id="btnCancelSale" type="button" class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -230,6 +230,192 @@
 
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
-<script></script>
+<script>
+    $(document).ready(function() {
+
+        $('#product_id').change(showValues);
+
+        $('#btn_add').click(function() {
+            addProduct();
+        });
+
+        $('#btnCancelSale').click(function() {
+            cancelSale();
+        });
+
+        disableButtons();
+
+        $('#tax').val(tax + '%')
+
+    });
+
+    let cont = 0;
+    let subTotal = [];
+    let amount = 0;
+    let iva = 0;
+    let total = 0;
+
+    const tax = 16;
+
+    function showValues(){
+        let dataProduct = document.getElementById('product_id').value.split('-');
+        $('#stock').val(dataProduct[1]);
+        $('#selling_price').val(dataProduct[2]);
+    }
+
+    function addProduct(){
+        let dataProduct = document.getElementById('product_id').value.split('-');
+        let idProduct = dataProduct[0];
+        let nameProduct = $('#product_id option:selected').text();
+        let quantity = $('#quantity').val();
+        let sellingPrice = $('#selling_price').val();
+        let discount = $('#discount').val();
+        let stock = $('#stock').val();
+
+        if(discount == ''){
+            discount = 0;
+        }
+
+     if (idProduct != '' && quantity != ''){
+
+        if( parseInt(quantity) > 0 && ( quantity % 1 == 0 ) && parseFloat(discount) >= 0 ){
+
+            if( parseInt(quantity) <= parseInt(stock) ){
+
+                subTotal[cont] = round( quantity * sellingPrice - discount );
+                amount += subTotal[cont];
+                iva = round( amount / 100 * tax );
+                total = round( amount + iva );
+
+                let row = '<tr id="row'+ cont +'">' +
+                        '<th>' + (cont + 1) + '</th>' +
+                        '<td> <input type="hidden" name="arrayIdProduct[]" value = "'+ idProduct + '">' + nameProduct + '</td>' +
+                        '<td> <input type="hidden" name="arrayQuantity[]" value = "'+ quantity + '">' + quantity + '</td>' +
+                        '<td> </td> <input type="hidden" name="arraySellingPrice[]" value = "'+ sellingPrice + '">$ ' + sellingPrice + '</td>' +
+                        '<td> </td> <input type="hidden" name="arrayDicount[]" value = "'+ discount + '">$ ' + discount + '</td>' +
+                        '<td>$ ' + subTotal[cont]+ '</td>' +
+                        '<td><button class="btn btn-danger" type="button" onClick="deleteProduct('+ cont +')"><i class="fa-solid fa-trash"></i></button></td>' +
+                        '</tr>';
+                $('#detail_table').append(row);
+                cleanFields();
+                cont++;
+                disableButtons();
+
+                $('#amount').html(amount);
+                $('#iva').html(iva);
+                $('#total').html(total);
+                $('#tax').val(iva);
+                $('#inputTotal').val(total);
+
+            }else{
+                showModal('No hay suficiente Stock.')
+            }
+
+        } else{
+            showModal('Faltan campos por llenar.')
+        }
+
+     } else{
+            showModal('Hacen falta campos por completar.');
+       }
+    }
+
+    function cleanFields(){
+        let select = $('#product_id');
+        select.selectpicker('val', '');
+        $('#quantity').val('');
+        $('#discount').val('');
+        $('#selling_price').val('');
+        $('#stock').val('');
+    }
+
+    function disableButtons(){
+        if( total == 0 ){
+            $('#saveButton').hide();
+            $('#cancelButton').hide();
+        }else{
+            $('#saveButton').show();
+            $('#cancelButton').show();
+        }
+    }
+
+    function deleteProduct(index){
+        amount -= round(subTotal[index]);
+        iva = round( (amount / 100) * tax );
+        total = round( amount + iva );
+
+        $('#amount').html(amount);
+        $('#iva').html(iva);
+        $('#total').html(total);
+        $('#tax').val(iva);
+        $('#inputTotal').val(total);
+
+        $('#row'+ index).remove();
+
+        disableButtons();
+    }
+
+    function cancelSale(){
+        $('#detail_table tbody').empty();
+
+        let row = '<tr>' +
+            '<th></th>' +
+            '<td></td>' +
+            '<td></td>' +
+            '<td></td>' +
+            '<td></td>' +
+            '<td></td>' +
+            '<td></td>' +
+            '</tr>';
+        $('#detail_table').append(row);
+
+        cont = 0;
+        subTotal = [];
+        amount = 0;
+        iva = 0;
+        total = 0;
+
+        $('#amount').html(amount);
+        $('#iva').html(iva);
+        $('#total').html(total);
+        $('#tax').val(tax + '%');
+        $('#inputTotal').val(total);
+
+        cleanFields();
+        disableButtons();
+    }
+
+    function round(num, decimales = 2) {
+        var signo = (num >= 0 ? 1 : -1);
+        num = num * signo;
+        if (decimales === 0) //con 0 decimales
+            return signo * Math.round(num);
+        // round(x * 10 ^ decimales)
+        num = num.toString().split('e');
+        num = Math.round(+(num[0] + 'e' + (num[1] ? (+num[1] + decimales) : decimales)));
+        // x * 10 ^ (-decimales)
+        num = num.toString().split('e');
+        return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
+    }
+
+    function showModal(message, icon = 'error') {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: icon,
+            title: message
+        })
+    }
+</script>
 
 @endpush
