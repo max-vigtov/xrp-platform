@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSaleRequest;
 use App\Models\Client;
 use App\Models\Product;
 use App\Models\Receipt;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -44,9 +46,46 @@ class saleController extends Controller
         return view('sale.create', compact('products','clients','receipts'));
     }
 
-    public function store(Request $request)
+    public function store(StoreSaleRequest $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $sale = Sale::create($request->validated());
+
+            $arrayIdProduct = $request->get('arrayIdProduct');
+            $arrayQuantity = $request->get('arrayQuantity');
+            $arraySellingPrice = $request->get('arraySellingPrice');
+            $arrayDiscount = $request->get('arrayDiscount');
+
+            $sizeArray = count($arrayIdProduct);
+            $cont = 0;
+            while($cont < $sizeArray){
+                $sale->products()->syncWithoutDetaching([
+                    $arrayIdProduct[$cont] => [
+                        'quantity' => $arrayQuantity[$cont],
+                        'selling_price' => $arraySellingPrice[$cont],
+                        'discount' => $arrayDiscount[$cont]
+                    ]
+                ]);
+                $product = Product::find($arrayIdProduct[$cont]);
+                $currentStock = $product->stock;
+                $quantity = intval($arrayQuantity[$cont]);
+
+                DB::table('products')
+                ->where('id', $product->id)
+                ->update([
+                    'stock' => $currentStock - $quantity,
+                ]);
+                $cont++;
+            }
+            DB::commit();
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+        }
+        return redirect()->route('sale.index')->with('success', 'Venta realizada con exito');
+
     }
 
     public function show(string $id)

@@ -63,10 +63,12 @@
                         </div>
 
                         {{-- discount --}}
-                        <div class="col-md-4 mb-3">
+                        <div class="col-sm-4">
                             <label for="discount" class="form-label">Descuento:</label>
                             <input type="number" name="discount" id="discount" class="form-control">
                         </div>
+
+
 
                         {{-- button --}}
                         <div class="col-md-12 mb-2 text-end">
@@ -198,6 +200,8 @@
                         <input type="hidden" name="date_time" value="{{ $date_time }}">
                      </div>
 
+                     <input type="hidden" name="user_id" value="1">
+
                      {{-- Buttons --}}
                      <div class="col-md-12 mb-12 text-center">
                         <button id="saveButton" type="submit" class="btn btn-success">Guardar</button>
@@ -272,52 +276,63 @@
         let discount = $('#discount').val();
         let stock = $('#stock').val();
 
+        // let dataProducto = document.getElementById('producto_id').value.split('-');
+        // //Obtener valores de los campos
+        // let idProducto = dataProducto[0];
+        // let nameProducto = $('#producto_id option:selected').text();
+        // let cantidad = $('#cantidad').val();
+        // let precioVenta = $('#precio_venta').val();
+        // let descuento = $('#descuento').val();
+        // let stock = $('#stock').val();
+
+
+
         if(discount == ''){
             discount = 0;
         }
 
-     if (idProduct != '' && quantity != ''){
+        if (idProduct != '' && quantity != ''){
 
-        if( parseInt(quantity) > 0 && ( quantity % 1 == 0 ) && parseFloat(discount) >= 0 ){
+            if( parseInt(quantity) > 0 && ( quantity % 1 == 0 ) && parseFloat(discount) >= 0 ){
 
-            if( parseInt(quantity) <= parseInt(stock) ){
+                if( parseInt(quantity) <= parseInt(stock) ){
 
-                subTotal[cont] = round( quantity * sellingPrice - discount );
-                amount += subTotal[cont];
-                iva = round( amount / 100 * tax );
-                total = round( amount + iva );
+                    subTotal[cont] = round( quantity * sellingPrice - discount );
+                    amount += subTotal[cont];
+                    iva = round( amount / 100 * tax );
+                    total = round( amount + iva );
 
-                let row = '<tr id="row'+ cont +'">' +
-                        '<th>' + (cont + 1) + '</th>' +
-                        '<td> <input type="hidden" name="arrayIdProduct[]" value = "'+ idProduct + '">' + nameProduct + '</td>' +
-                        '<td> <input type="hidden" name="arrayQuantity[]" value = "'+ quantity + '">' + quantity + '</td>' +
-                        '<td> </td> <input type="hidden" name="arraySellingPrice[]" value = "'+ sellingPrice + '">$ ' + sellingPrice + '</td>' +
-                        '<td> </td> <input type="hidden" name="arrayDicount[]" value = "'+ discount + '">$ ' + discount + '</td>' +
-                        '<td>$ ' + subTotal[cont]+ '</td>' +
-                        '<td><button class="btn btn-danger" type="button" onClick="deleteProduct('+ cont +')"><i class="fa-solid fa-trash"></i></button></td>' +
-                        '</tr>';
-                $('#detail_table').append(row);
-                cleanFields();
-                cont++;
-                disableButtons();
+                    let row = '<tr id="row'+ cont +'">' +
+                            '<th>' + (cont + 1) + '</th>' +
+                            '<td> <input type="hidden" name="arrayIdProduct[]" value = "'+ idProduct + '">' + nameProduct + '</td>' +
+                            '<td> <input type="hidden" name="arrayQuantity[]" value = "'+ quantity + '">' + quantity + '</td>' +
+                            '<td> <input type="hidden" name="arraySellingPrice[]" value = "' + sellingPrice + '">' + sellingPrice + '</td>' +
+                            '<td> <input type="hidden" name="arrayDiscount[]" value = "' + discount + '">' + discount + '</td>' +
+                            '<td>$ ' + subTotal[cont] + '</td>' +
+                            '<td><button class="btn btn-danger" type="button" onClick="deleteProduct('+ cont +')"><i class="fa-solid fa-trash"></i></button></td>' +
+                            '</tr>';
+                    $('#detail_table').append(row);
+                    cleanFields();
+                    cont++;
+                    disableButtons();
 
-                $('#amount').html(amount);
-                $('#iva').html(iva);
-                $('#total').html(total);
-                $('#tax').val(iva);
-                $('#inputTotal').val(total);
+                    $('#amount').html(amount);
+                    $('#iva').html(iva);
+                    $('#total').html(total);
+                    $('#tax').val(iva);
+                    $('#inputTotal').val(total);
 
-            }else{
-                showModal('No hay suficiente Stock.')
+                }else{
+                    showModal('No hay suficiente Stock.')
+                }
+
+            } else{
+                showModal('Faltan campos por llenar.')
             }
 
         } else{
-            showModal('Faltan campos por llenar.')
+                showModal('Hacen falta campos por completar.');
         }
-
-     } else{
-            showModal('Hacen falta campos por completar.');
-       }
     }
 
     function cleanFields(){

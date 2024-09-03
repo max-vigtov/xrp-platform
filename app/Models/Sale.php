@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
 {
+
     use HasFactory;
+
+    protected $guarded = ['id'];
 
     public function client(){
         return $this->belongsTo(Client::class);
@@ -22,7 +25,9 @@ class Sale extends Model
     }
 
     public function products(){
-        return $this->belongsToMany(Product::class)->withTimestamps()
-        ->withPivot('quantity', 'discount', 'selling_price');;
+        return $this->belongsToMany(Product::class, 'sale_product')
+         ->withTimestamps()
+         ->withPivot('quantity', 'discount', 'selling_price');;
     }
+
 }
