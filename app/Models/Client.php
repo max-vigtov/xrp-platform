@@ -13,5 +13,9 @@ class Client extends Model
         return $this->belongsTo(Person::class);
     }
 
+    public function Sale(){
+        return $this->hasMany(Sale::class);
+    }
+
     protected $fillable = ['person_id'];
 }

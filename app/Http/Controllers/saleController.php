@@ -15,7 +15,11 @@ class saleController extends Controller
 
     public function index()
     {
-
+        $sales = Sale::with(['receipt','client.person','user'])
+        ->where('status',1)
+        ->latest()
+        ->get();
+        return view('sale.index', compact('sales'));
     }
 
     public function create()

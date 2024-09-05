@@ -1,9 +1,9 @@
 @extends('template')
-
-@section('title','Compras')
+@section('title','Ventas')
 
 @push('css')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 @endpush
 
@@ -30,33 +30,34 @@ Toast.fire({
 @endif
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Compras</h1>
+    <h1 class="mt-4">Ventas</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-        <li class="breadcrumb-item active">Compras</li>
+        <li class="breadcrumb-item active">Ventas</li>
     </ol>
     <div class="mb-4">
-        <a href="{{ route('purchase.create') }}"> <button type="button" class="btn btn-primary">Añadir nuevo registro</button></a>
+        <a href="{{ route('sale.create') }}"> <button type="button" class="btn btn-primary">Añadir nuevo registro</button></a>
     </div>
 
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Compras Realizadas
+            Ventas Realizadas
         </div>
         <div class="card-body">
             <table id="datatablesSimple" class="table table-striped">
                 <thead>
                     <tr>
                         <th>Comprobante</th>
-                        <th>Proveedor</th>
+                        <th>Cliente</th>
                         <th>Fecha y hora</th>
+                        <th>Vendedor</th>
                         <th>Total</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($purchases as $item)
+                    @foreach ($sales as $item)
                     <tr>
                         <td>
                             <p class="fw-semibold mb-1">
@@ -68,10 +69,10 @@ Toast.fire({
                         </td>
                         <td>
                             <p class="fw-semibold mb-1">
-                                {{ $item->provider->person->business_name }}
+                                {{ $item->client->person->business_name }}
                             </p>
                             <p class="text-muted mb-0">
-                                Tipo de persona: {{ $item->provider->person->person_type }}
+                                Tipo de persona: {{ $item->client->person->person_type }}
                             </p>
                         </td>
                         <td>
@@ -81,11 +82,14 @@ Toast.fire({
                             }}
                         </td>
                         <td>
+                            {{ $item->user->name }}
+                        </td>
+                        <td>
                             {{ $item->total }}
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <form action="{{ route('purchase.show', ['purchase'=>$item]) }}" method="get">
+                                <form action="{{ route('sale.show', ['sale'=>$item]) }}" method="get">
                                     <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
@@ -97,7 +101,7 @@ Toast.fire({
                             <div class="modal-dialog modal-dialog-scrollable">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmModalLabel">Detalles de la Compra</h5>
+                                    <h5 class="modal-title" id="confirmModalLabel">Detalles de la Venta</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                 <div class="modal-body">
@@ -108,7 +112,7 @@ Toast.fire({
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 
-                                <form action="{{ route('purchase.destroy',['purchase'=>$item->id]) }}" method="post">
+                                <form action="{{ route('sale.destroy',['sale'=>$item->id]) }}" method="post">
                                     @method('DELETE')
                                     @csrf
 
@@ -118,8 +122,10 @@ Toast.fire({
                                 </div>
                             </div>
                         </div>
+
                     @endforeach
                 </tbody>
+
             </table>
         </div>
     </div>
@@ -130,5 +136,4 @@ Toast.fire({
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
-
 @endpush

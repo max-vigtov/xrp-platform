@@ -14,15 +14,14 @@ return new class extends Migration
             $table->dateTime('date_time');
             $table->decimal('tax',8,2,true);
             $table->string('receipt_number',255);
-            $table->decimal('total',8,2)->unsigned();
+            $table->decimal('total',8,2, true);
             $table->tinyInteger('status')->default(1);
             $table->foreignId('client_id')->nullable()->constrained('clients')->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('receipt_id')->nullable()->constrained('receipts')->onDelete('set null');
-            $table->foreignId('provider_id')->nullable()->constrained('providers')->onDelete('set null');
             $table->timestamps();
         });
     }
-
 
     public function down()
     {
