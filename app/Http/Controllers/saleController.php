@@ -92,9 +92,9 @@ class saleController extends Controller
 
     }
 
-    public function show(string $id)
+    public function show(Sale $sale)
     {
-        //
+        return view('sale.show',compact('sale'));
     }
 
     public function edit(string $id)
@@ -109,6 +109,10 @@ class saleController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        Sale::where('id',$id)
+        ->update([
+            'status' => 0
+        ]);
+        return redirect()->route('sale.index')->with('success', 'Venta Eliminada con exito');
     }
 }
