@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\brandController;
 use App\Http\Controllers\clientController;
+use App\Http\Controllers\homeController;
+use App\Http\Controllers\logoutController;
+use App\Http\Controllers\loginController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\providerController;
 use App\Http\Controllers\purchaseController;
@@ -19,14 +22,10 @@ use App\Http\Controllers\saleController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('panel.index');
-});
-
-Route::view('/panel', 'panel.index')->name('panel');
+Route::get('/',[homeController::class,'index'])->name('panel');
 
 Route::resources([
+
     'category' => categoryController::class,
     'brand'=> brandController::class,
     'product' => productController::class,
@@ -36,9 +35,9 @@ Route::resources([
     'sale' => saleController::class,
 ]);
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
+Route::get('/login', [loginController::class,'index'])->name('login');
+Route::post('/login', [loginController::class,'login']);
+Route::get('/logout', [logoutController::class,'logout'])->name('logout');
 
 Route::get('/401', function () {
     return view('pages.401');

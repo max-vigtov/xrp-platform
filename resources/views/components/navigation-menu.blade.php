@@ -96,6 +96,6 @@
     </div>
     <div class="sb-sidenav-footer">
         <div class="small">Bienvenido:</div>
-        XRP Platform
+        {{ auth()->user()->name }}
     </div>
 </nav>

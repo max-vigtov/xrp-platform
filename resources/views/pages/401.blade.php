@@ -19,11 +19,11 @@
                             <div class="col-lg-6">
                                 <div class="text-center mt-4">
                                     <h1 class="display-1">401</h1>
-                                    <p class="lead">Unauthorized</p>
-                                    <p>Access to this resource is denied.</p>
-                                    <a href="index.html">
+                                    <p class="lead">No autorizado</p>
+                                    <p>No tiene permiso para acceder a este recurso.</p>
+                                    <a href="{{ route('login') }}">
                                         <i class="fas fa-arrow-left me-1"></i>
-                                        Return to Dashboard
+                                        Iniciar sesión
                                     </a>
                                 </div>
                             </div>
@@ -35,7 +35,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            {{-- <div class="text-muted">Copyright &copy; Your Website 2024</div> --}}
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
