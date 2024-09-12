@@ -92,6 +92,10 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
                 Categorias
             </a>
+            <a class="nav-link" href="{{ route('user.index') }}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                Usuarios
+            </a>
             <a class="nav-link" href="{{ route('role.index') }}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-sitemap"></i></div>
                 Roles

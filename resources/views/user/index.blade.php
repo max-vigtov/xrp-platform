@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title','Roles')
+@section('title','Usuarios')
 
 @push('css')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -30,36 +30,40 @@ Toast.fire({
 @endif
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Roles</h1>
+    <h1 class="mt-4">Usuarios</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-        <li class="breadcrumb-item active">Roles</li>
+        <li class="breadcrumb-item active">Usuarios</li>
     </ol>
     <div class="mb-4">
-        <a href="{{ route('role.create') }}"><button type="button" class="btn btn-primary">Añadir nuevo rol</button></a>
+        <a href="{{ route('user.create') }}"><button type="button" class="btn btn-primary">Añadir nuevo Usuario</button></a>
     </div>
 
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Roles Existentes
+            Usuarios Existentes
         </div>
         <div class="card-body">
             <table id="datatablesSimple" class="table table-striped">
                 <thead>
                     <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
                         <th>Rol</th>
                         <th>Acciones</th>
                     </tr>
                 <thead>
                 <tbody>
-                    @foreach ( $roles as $item )
+                    @foreach ( $users as $item )
                         <tr>
                             <td>  {{ $item->name }} </td>
+                            <td>  {{ $item->email }} </td>
+                            <td>  {{ $item->getRoleNames()->first() }} </td>
 
                             <td>
-                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                   <form action="{{ route('role.edit',['role' => $item]) }}" method="get">
+                                <div class="btn-group" user="group" aria-label="Basic mixed styles example">
+                                   <form action="{{ route('user.edit',['user' => $item]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
@@ -76,12 +80,12 @@ Toast.fire({
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                 <div class="modal-body">
-                                    ¿Estás seguro de eliminar el Rol?
+                                    ¿Estás seguro de eliminar el Usuario?
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 
-                                <form action="{{ route('role.destroy',['role'=>$item->id]) }}" method="post">
+                                <form action="{{ route('user.destroy',['user'=>$item->id]) }}" method="post">
                                     @method('DELETE')
                                     @csrf
 
