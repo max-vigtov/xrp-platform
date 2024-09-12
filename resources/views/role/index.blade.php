@@ -77,7 +77,7 @@ Toast.fire({
                                   </div>
                                 <div class="modal-body">
 
-                                    '¿Estás seguro de eliminar el Rol?'
+                                    ¿Estás seguro de eliminar el Rol?
 
                                 </div>
                                 <div class="modal-footer">
