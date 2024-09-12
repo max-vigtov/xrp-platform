@@ -56,6 +56,7 @@ Toast.fire({
                 <thead>
                 <tbody>
                     @foreach ( $users as $item )
+                    @if( $item->id != 1 || $item->id == auth()->user()->id )
                         <tr>
                             <td>  {{ $item->name }} </td>
                             <td>  {{ $item->email }} </td>
@@ -66,11 +67,13 @@ Toast.fire({
                                    <form action="{{ route('user.edit',['user' => $item]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
+                                    @if (!($item->id == auth()->user()->id))
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
-
+                                    @endif
                                   </div>
                             </td>
                         </tr>
+                        @endif
                         <!-- Modal Confirm -->
                         <div class="modal fade" id="confirmModal-{{ $item->id }}" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable">

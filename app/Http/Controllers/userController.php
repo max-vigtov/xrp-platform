@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -52,20 +54,45 @@ class userController extends Controller
     }
 
 
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        $roles = Role::all();
+        return view('user.edit', compact('user','roles'));
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            if (empty($request->password)) {
+                $request = Arr::except($request,array('password'));
+            } else {
+                $fieldHash = Hash::make($request->password);
+                $request->merge(['password' => $fieldHash]);
+            }
+
+            $user->update($request->all());
+
+            $user->syncRoles([$request->role]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+        return redirect()->route('user.index')->with('success','Usuario Editado correctamente');
     }
 
 
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $roleUser = $user->getRoleName()->first();
+        $user->romeRole($roleUser);
+
+        $user->delete();
+        return redirect()->route('user.index')->with('success','Usuario Eliminado correctamente');
+
     }
 }
