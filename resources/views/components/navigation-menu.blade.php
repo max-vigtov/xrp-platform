@@ -72,14 +72,6 @@
                     <a class="nav-link" href="{{ route('sale.create') }}">Crear</a>
                 </nav>
             </div>
-            <a class="nav-link" href="{{ route('category.index') }}">
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
-                Categorias
-            </a>
-            <a class="nav-link" href="{{ route('brand.index') }}">
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-tag"></i></div>
-                Marcas
-            </a>
             <a class="nav-link" href="{{ route('product.index') }}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-mobile-screen"></i></div>
                 Productos
@@ -91,6 +83,18 @@
             <a class="nav-link" href="{{ route('provider.index') }}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-box-open"></i></div>
                 Proveedores
+            </a>
+            <a class="nav-link" href="{{ route('brand.index') }}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-tag"></i></div>
+                Marcas
+            </a>
+            <a class="nav-link" href="{{ route('category.index') }}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
+                Categorias
+            </a>
+            <a class="nav-link" href="{{ route('role.index') }}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-sitemap"></i></div>
+                Roles
             </a>
         </div>
     </div>

@@ -25,6 +25,7 @@ class categoryController extends Controller
         return view('category.create');
     }
 
+
     public function store(StorePropertyRequest $request)
     {
 
@@ -69,8 +70,8 @@ class categoryController extends Controller
         $message = '';
         $category = Category::find($id);
 
-        if($category->property->status == 1){
-            Property::where('id',$category->property->id)
+        if( $category->property->status == 1 ){
+            Property::where( 'id',$category->property->id )
                 ->update([
                     'status' => 0,
                 ]);
@@ -78,7 +79,7 @@ class categoryController extends Controller
         }
 
         else{
-            Property::where('id',$category->property->id)
+            Property::where( 'id',$category->property->id )
             ->update([
                 'status' => 1,
             ]);

@@ -11,6 +11,8 @@ use App\Http\Controllers\productController;
 use App\Http\Controllers\providerController;
 use App\Http\Controllers\purchaseController;
 use App\Http\Controllers\saleController;
+use App\Http\Controllers\userController;
+use App\Http\Controllers\roleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,6 @@ use App\Http\Controllers\saleController;
 Route::get('/',[homeController::class,'index'])->name('panel');
 
 Route::resources([
-
     'category' => categoryController::class,
     'brand'=> brandController::class,
     'product' => productController::class,
@@ -33,10 +34,12 @@ Route::resources([
     'provider' => providerController::class,
     'purchase' => purchaseController::class,
     'sale' => saleController::class,
+    'user' =>userController::class,
+    'role' =>roleController::class,
 ]);
 
-Route::get('/login', [loginController::class,'index'])->name('login');
 Route::post('/login', [loginController::class,'login']);
+Route::get('/login', [loginController::class,'index'])->name('login');
 Route::get('/logout', [logoutController::class,'logout'])->name('logout');
 
 Route::get('/401', function () {
