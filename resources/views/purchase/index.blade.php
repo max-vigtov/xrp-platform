@@ -36,9 +36,11 @@ Toast.fire({
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
         <li class="breadcrumb-item active">Compras</li>
     </ol>
+    @can('crear-comprar')
     <div class="mb-4">
         <a href="{{ route('purchase.create') }}"> <button type="button" class="btn btn-primary">Añadir nuevo registro</button></a>
     </div>
+    @endcan
 
     <div class="card mb-4">
         <div class="card-header">
@@ -89,7 +91,10 @@ Toast.fire({
                                 <form action="{{ route('purchase.show', ['purchase'=>$item]) }}" method="get">
                                     <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
+
+                                @can('eliminar-compra')
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
+                                @endcan
                             </div>
                         </td>
                     </tr>

@@ -35,9 +35,12 @@ Toast.fire({
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
         <li class="breadcrumb-item active">Roles</li>
     </ol>
+
+    @can('crear-rol')
     <div class="mb-4">
         <a href="{{ route('role.create') }}"><button type="button" class="btn btn-primary">Añadir nuevo rol</button></a>
     </div>
+    @endcan
 
     <div class="card mb-4">
         <div class="card-header">
@@ -59,11 +62,14 @@ Toast.fire({
 
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    @can('editar-rol')
                                    <form action="{{ route('role.edit',['role' => $item]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
+                                    @endcan
+                                    @can('eliminar-rol')
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
-
+                                    @endcan
                                   </div>
                             </td>
                         </tr>

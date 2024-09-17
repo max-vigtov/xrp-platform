@@ -36,9 +36,12 @@ Toast.fire({
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
         <li class="breadcrumb-item active">Proveedores</li>
     </ol>
+
+    @can('crear-cliente')
     <div class="mb-4">
         <a href="{{ route('provider.create') }}"> <button type="button" class="btn btn-primary">Registrar Proveedor</button></a>
     </div>
+    @endcan
 
     <div class="card mb-4">
         <div class="card-header">
@@ -76,15 +79,22 @@ Toast.fire({
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    @can('edita-cliente')
+
                                    <form action="{{ route('provider.edit',['provider' => $item]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
+                                    @endcan
+
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">Ver Proveedor</button>
+                                    @can('eliminar-cliente')
                                     @if($item->person->status == 1)
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
                                     @else
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Restaurar</button>
                                     @endif
+                                    @endcan
+
                                   </div>
                             </td>
                         </tr>

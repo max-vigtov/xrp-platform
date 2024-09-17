@@ -36,9 +36,12 @@ Toast.fire({
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
         <li class="breadcrumb-item active">Marcas</li>
     </ol>
+
+    @can('crear-marca')
     <div class="mb-4">
         <a href="{{ route('brand.create') }}"> <button type="button" class="btn btn-primary">Añadir nuevo registro</button></a>
     </div>
+    @endcan
 
     <div class="card mb-4">
         <div class="card-header">
@@ -75,15 +78,18 @@ Toast.fire({
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    @can('editar-marca')
                                     <form action="{{ route('brand.edit',['brand'=>$brand]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
-                                    @if($brand->property->status == 1)
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $brand->id }}">Eliminar</button>
-                                    @else
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $brand->id }}">Restaurar</button>
-                                    @endif
-
+                                    @endcan
+                                    @can('eliminar-marca')
+                                        @if($brand->property->status == 1)
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $brand->id }}">Eliminar</button>
+                                        @else
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $brand->id }}">Restaurar</button>
+                                        @endif
+                                    @endcan
                                   </div>
                             </td>
                         </tr>

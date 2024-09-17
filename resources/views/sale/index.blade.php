@@ -95,7 +95,9 @@ Toast.fire({
                                 <form action="{{ route('sale.show', ['sale'=>$item]) }}" method="get">
                                     <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
+                                @can('eliminar-venta')
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
+                                @endcan
                             </div>
                         </td>
                     </tr>
@@ -113,15 +115,15 @@ Toast.fire({
 
                                 </div>
                                 <div class="modal-footer">
+
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 
                                 <form action="{{ route('sale.destroy',['sale'=>$item->id]) }}" method="post">
                                     @method('DELETE')
                                     @csrf
-
                                     <button type="submit" class="btn btn-danger">Confirmar</button>
-
                                 </form>
+
                                 </div>
                             </div>
                         </div>

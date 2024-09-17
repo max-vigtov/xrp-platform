@@ -84,8 +84,8 @@ Toast.fire({
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
                                     @endcan
-                                    @can('eliminar-categoría')
 
+                                    @can('eliminar-categoría')
                                     @if($category->property->status == 1)
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $category->id }}">Eliminar</button>
                                     @else
