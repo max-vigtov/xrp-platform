@@ -13,6 +13,14 @@ use Exception;
 class clientController extends Controller
 {
 
+    function __construct()
+    {
+        $this->middleware('permission:ver-cliente|crear-cliente|editar-cliente|eliminar-cliente',['only'=>['index']]);
+        $this->middleware('permission:crear-cliente',['only'=>['create','store']]);
+        $this->middleware('permission:editar-cliente',['only'=>['edit','update']]);
+        $this->middleware('permission:eliminar-cliente',['only'=>['destroy']]);
+    }
+
     public function index()
     {
         $clients = Client::with('person.document')->get();

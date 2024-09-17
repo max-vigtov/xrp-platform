@@ -36,9 +36,12 @@ Toast.fire({
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
         <li class="breadcrumb-item active">Clientes</li>
     </ol>
+
+    @can('crear-cliente')
     <div class="mb-4">
         <a href="{{ route('client.create') }}"> <button type="button" class="btn btn-primary">Registrar Cliente</button></a>
     </div>
+    @endcan
 
     <div class="card mb-4">
         <div class="card-header">
@@ -76,15 +79,22 @@ Toast.fire({
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                   <form action="{{ route('client.edit',['client' => $item]) }}" method="get">
+                                    @can('editar-cliente')
+                                    <form action="{{ route('client.edit',['client' => $item]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
+                                    @endcan
+
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">Ver Cliente</button>
-                                    @if($item->person->status == 1)
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
-                                    @else
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Restaurar</button>
-                                    @endif
+
+                                    @can('eliminar-cliente')
+                                        @if($item->person->status == 1)
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Eliminar</button>
+                                        @else
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item->id }}">Restaurar</button>
+                                        @endif
+                                    @endcan
+
                                   </div>
                             </td>
                         </tr>

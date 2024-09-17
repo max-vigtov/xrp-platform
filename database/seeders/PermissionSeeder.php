@@ -56,10 +56,23 @@ class PermissionSeeder extends Seeder
             'crear-venta',
             'mostrar-venta',
             'eliminar-venta',
+
+            // Roles
+            'ver-rol',
+            'crear-rol',
+            'editar-rol',
+            'eliminar-rol',
+
+            // User
+            'ver-user',
+            'crear-user',
+            'editar-user',
+            'eliminar-user',
+
         ];
 
         foreach ($permissions as $permission) {
-            Permission::crear(['name' => $permission]);
+            Permission::create(['name' => $permission]);
         }
     }
 }

@@ -13,6 +13,14 @@ use Exception;
 class categoryController extends Controller
 {
 
+    function __construct()
+    {
+        $this->middleware('permission:ver-categoría|crear-categoría|editar-categoría|eliminar-categoría',['only'=>['index']]);
+        $this->middleware('permission:crear-categoría',['only'=>['create','store']]);
+        $this->middleware('permission:editar-categoría',['only'=>['edit','update']]);
+        $this->middleware('permission:eliminar-categoría',['only'=>['destroy']]);
+    }
+
     public function index()
     {
         $categories = Category::with('property')->latest()->get();

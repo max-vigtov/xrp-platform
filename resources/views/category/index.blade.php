@@ -36,9 +36,12 @@ Toast.fire({
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
         <li class="breadcrumb-item active">Categorías</li>
     </ol>
+
+    @can('crear-categoría')
     <div class="mb-4">
         <a href="{{ route('category.create') }}"> <button type="button" class="btn btn-primary">Añadir nuevo registro</button></a>
     </div>
+    @endcan
 
     <div class="card mb-4">
         <div class="card-header">
@@ -75,14 +78,20 @@ Toast.fire({
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+
+                                    @can('editar-categoría')
                                     <form action="{{ route('category.edit',['category'=>$category]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
+                                    @endcan
+                                    @can('eliminar-categoría')
+
                                     @if($category->property->status == 1)
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $category->id }}">Eliminar</button>
                                     @else
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $category->id }}">Restaurar</button>
                                     @endif
+                                    @endcan
 
                                   </div>
                             </td>

@@ -13,7 +13,13 @@ use Exception;
 
 class providerController extends Controller
 {
-
+    function __construct()
+    {
+        $this->middleware('permission:ver-proveedor|crear-proveedor|editar-proveedor|eliminar-proveedor',['only'=>['index']]);
+        $this->middleware('permission:crear-proveedor',['only'=>['create','store']]);
+        $this->middleware('permission:editar-proveedor',['only'=>['edit','update']]);
+        $this->middleware('permission:eliminar-proveedor',['only'=>['destroy']]);
+    }
     public function index()
     {
         $providers = Provider::with('person.document')->get();

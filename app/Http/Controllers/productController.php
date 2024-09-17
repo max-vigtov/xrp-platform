@@ -15,6 +15,14 @@ use Exception;
 class productController extends Controller
 {
 
+    function __construct()
+    {
+        $this->middleware('permission:ver-producto|crear-producto|editar-producto|eliminar-producto',['only'=>['index']]);
+        $this->middleware('permission:crear-producto',['only'=>['create','store']]);
+        $this->middleware('permission:editar-producto',['only'=>['edit','update']]);
+        $this->middleware('permission:eliminar-producto',['only'=>['destroy']]);
+    }
+
     public function index()
     {
         $products = Product::with(['categories.property','brand.property'])->latest()->get();
