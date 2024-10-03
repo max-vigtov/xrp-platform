@@ -57,10 +57,13 @@
                 Compras
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
+
             <div class="collapse" id="collapsePurchases" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
                     <a class="nav-link" href="{{ route('purchase.index') }}">Ver</a>
+                    @can('crear-compra')
                     <a class="nav-link" href="{{ route('purchase.create') }}">Crear</a>
+                    @endcan
                 </nav>
             </div>
             @endcan

@@ -14,8 +14,8 @@
     <h1 class="mt-4">Crear Rol</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('user.index') }}">Roles</a></li>
-        <li class="breadcrumb-item active">Crear Rol</li>
+        <li class="breadcrumb-item"><a href="{{ route('user.index') }}">Usuarios</a></li>
+        <li class="breadcrumb-item active">Crear Usuario</li>
     </ol>
 
     <div class="container w-100 border border-3 border-primary rounded p-4 mt-3" >

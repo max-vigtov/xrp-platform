@@ -36,7 +36,7 @@ Toast.fire({
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
         <li class="breadcrumb-item active">Compras</li>
     </ol>
-    @can('crear-comprar')
+    @can('crear-compra')
     <div class="mb-4">
         <a href="{{ route('purchase.create') }}"> <button type="button" class="btn btn-primary">Añadir nuevo registro</button></a>
     </div>

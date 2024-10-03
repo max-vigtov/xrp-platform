@@ -36,7 +36,7 @@ Toast.fire({
         <li class="breadcrumb-item active">Usuarios</li>
     </ol>
 
-    @can('crar-user')
+    @can('crear-user')
     <div class="mb-4">
         <a href="{{ route('user.create') }}"><button type="button" class="btn btn-primary">Añadir nuevo Usuario</button></a>
     </div>

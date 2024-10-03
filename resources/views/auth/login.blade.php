@@ -47,7 +47,8 @@
                                             </div> --}}
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 {{-- <a class="small text-light" href="password.html">¿Olvidó su contraseña?</a> --}}
-                                                <button class="btn btn-primary" type="submit"><a>Ingresar</a></button>
+                                                <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar</button>
+
                                             </div>
                                         </form>
                                     </div>
